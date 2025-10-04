@@ -1,0 +1,10 @@
+.task-list {
+  width: 100%;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  margin-top: 50px;
+  font-size: 16px;
+}
