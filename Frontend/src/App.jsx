@@ -39,15 +39,17 @@ function App() {
     }
   };
 
+
   const handleTaskComplete = async (id) => {
     try {
-      await fetch(`${API_BASE_URL}/tasks/complete/${id}`, { method: 'PUT' });
+      await fetch(`${API_BASE_URL}/tasks/${id}/complete`, { method: 'PUT' });
       fetchTasks();
       fetchStats();
     } catch (error) {
       console.error('Error completing task:', error);
     }
   };
+
 
   const handleTaskDelete = async (id) => {
     try {
@@ -56,6 +58,29 @@ function App() {
       fetchStats();
     } catch (error) {
       console.error('Error deleting task:', error);
+    }
+  };
+
+
+  const handleTaskUpdate = async (updatedTask) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks/${updatedTask.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTask),
+      });
+
+      if (response.ok) {
+        setTasks(tasks.map(task =>
+          task.id === updatedTask.id ? updatedTask : task
+        ));
+      } else {
+        console.error('Failed to update task');
+        alert('Failed to update task');
+      }
+    } catch (error) {
+      console.error('Error updating task:', error);
+      alert('Error updating task');
     }
   };
 
@@ -90,6 +115,7 @@ function App() {
             tasks={tasks}
             onTaskComplete={handleTaskComplete}
             onTaskDelete={handleTaskDelete}
+            onTaskUpdate={handleTaskUpdate}
           />
         </div>
       </div>

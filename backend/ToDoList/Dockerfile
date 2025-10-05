@@ -1,4 +1,4 @@
-# Build stage
+# Build and Test stage
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
@@ -6,9 +6,14 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
-# Copy source code and build
+# Copy source code
 COPY src ./src
-RUN mvn clean package -DskipTests
+
+# Run tests and generate JaCoCo coverage report
+RUN mvn clean test jacoco:report
+
+# Build the application (skip tests since we already ran them)
+RUN mvn package -DskipTests
 
 # Run stage - Using full JDK image which supports ARM
 FROM eclipse-temurin:17-jdk

@@ -2,7 +2,7 @@ import React from 'react';
 import TaskCard from './TaskCard';
 import '../css/TaskList.css';
 
-function TaskList({ tasks, onTaskComplete, onTaskDelete }) {
+function TaskList({ tasks, onTaskComplete, onTaskDelete, onTaskUpdate }) {
   if (tasks.length === 0) {
     return (
       <p className="empty-message">
@@ -19,6 +19,7 @@ function TaskList({ tasks, onTaskComplete, onTaskDelete }) {
           task={task} 
           onComplete={onTaskComplete}
           onDelete={onTaskDelete}
+          onUpdate={onTaskUpdate}
         />
       ))}
     </div>

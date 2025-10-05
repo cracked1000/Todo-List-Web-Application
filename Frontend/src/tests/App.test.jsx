@@ -1,14 +1,14 @@
-import React from 'react'
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import App from '../App'
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import App from '../App';
 
-global.fetch = jest.fn()
+global.fetch = jest.fn();
 
 describe('App Component', () => {
   beforeEach(() => {
-    fetch.mockClear()
-  })
+    fetch.mockClear();
+  });
 
   test('should load tasks on mount', async () => {
     fetch
@@ -19,14 +19,14 @@ describe('App Component', () => {
       .mockResolvedValueOnce({
         ok: true,
         json: async () => ({ totalTasks: 1, completedTasks: 0, notCompletedTasks: 0 })
-      })
+      });
 
-    render(<App />)
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('Task 1')).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText('Task 1')).toBeInTheDocument();
+    });
+  });
 
   test('should show empty message', async () => {
     fetch
@@ -34,14 +34,14 @@ describe('App Component', () => {
       .mockResolvedValueOnce({ 
         ok: true, 
         json: async () => ({ totalTasks: 0, completedTasks: 0, notCompletedTasks: 0 }) 
-      })
+      });
 
-    render(<App />)
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('No tasks yet. Add one!')).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText('No tasks yet. Add one!')).toBeInTheDocument();
+    });
+  });
 
   test('should display stats', async () => {
     fetch
@@ -49,14 +49,14 @@ describe('App Component', () => {
       .mockResolvedValueOnce({ 
         ok: true, 
         json: async () => ({ totalTasks: 5, completedTasks: 2, notCompletedTasks: 1 }) 
-      })
+      });
 
-    render(<App />)
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('5')).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText('5')).toBeInTheDocument();
+    });
+  });
 
   test('should complete task', async () => {
     fetch
@@ -73,27 +73,27 @@ describe('App Component', () => {
       .mockResolvedValueOnce({ 
         ok: true, 
         json: async () => ({ totalTasks: 1, completedTasks: 1, notCompletedTasks: 0 }) 
-      })
+      });
 
-    render(<App />)
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('Task 1')).toBeInTheDocument()
-    })
+      expect(screen.getByText('Task 1')).toBeInTheDocument();
+    });
 
-    fireEvent.click(screen.getByText('Done'))
+    fireEvent.click(screen.getByText('Done'));
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/tasks/complete/1',
+        'http://localhost:8080/tasks/1/complete', // <-- RESTful
         { method: 'PUT' }
-      )
-    })
-  })
+      );
+    });
+  });
 
   test('should delete task', async () => {
-    window.confirm = jest.fn(() => true)
-    
+    window.confirm = jest.fn(() => true);
+
     fetch
       .mockResolvedValueOnce({
         ok: true,
@@ -108,21 +108,22 @@ describe('App Component', () => {
       .mockResolvedValueOnce({ 
         ok: true, 
         json: async () => ({ totalTasks: 1, completedTasks: 0, notCompletedTasks: 1 }) 
-      })
+      });
 
-    render(<App />)
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('Task 1')).toBeInTheDocument()
-    })
+      expect(screen.getByText('Task 1')).toBeInTheDocument();
+    });
 
-    fireEvent.click(screen.getByText('Delete'))
+    fireEvent.click(screen.getByText('Delete'));
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/tasks/1',
+        'http://localhost:8080/tasks/1', // <-- RESTful delete
         { method: 'DELETE' }
-      )
-    })
-  })
-})
+      );
+    });
+  });
+
+});

@@ -13,22 +13,14 @@ function TaskForm({ onTaskAdded }) {
       return;
     }
 
-    console.log('API_BASE_URL:', API_BASE_URL); 
-    console.log('Sending request to:', `${API_BASE_URL}/tasks`); 
-
     try {
       const response = await fetch(`${API_BASE_URL}/tasks`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          name: name, 
-          description: description 
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, description }),
       });
 
-      console.log('Response status:', response.status); 
+      console.log('Response status:', response.status);
 
       if (response.ok) {
         setName('');

@@ -21,24 +21,31 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getRecentTasks() {
+    public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskService.getRecentTasks());
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<TaskStats> getTaskStats() {
+    public ResponseEntity<TaskStats> getStats() {
         return ResponseEntity.ok(taskService.getTaskStats());
     }
 
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task created = taskService.addTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping("/complete/{id}")
-    public ResponseEntity<Void> completedTask(@PathVariable int id) {
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<Void> completeTask(@PathVariable int id) {
         taskService.completedTask(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateTask(@PathVariable int id, @RequestBody Task task) {
+        task.setId(id);
+        taskService.updateTask(task);
         return ResponseEntity.ok().build();
     }
 

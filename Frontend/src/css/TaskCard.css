@@ -11,6 +11,11 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+.task-card.editing {
+  background-color: #e8f4f8;
+  border: 2px solid #007bff;
+}
+
 .task-title {
   margin: 0 0 8px 0;
   font-size: 20px;
@@ -29,7 +34,8 @@
 }
 
 .btn-done,
-.btn-delete {
+.btn-delete,
+.btn-edit {
   background-color: white;
   color: #333;
   padding: 8px 24px;
@@ -44,10 +50,87 @@
   color: #d32f2f;
 }
 
+.btn-edit {
+  color: #ff9800;
+}
+
 .btn-done:hover {
   background-color: #f0f0f0;
 }
 
 .btn-delete:hover {
   background-color: #ffebee;
+}
+
+.btn-edit:hover {
+  background-color: #fff3e0;
+}
+
+/* Edit Mode Styles */
+.edit-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.edit-textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+  background-color: white;
+  min-height: 80px;
+}
+
+.edit-textarea:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.btn-save {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-save:hover {
+  background-color: #218838;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
 }

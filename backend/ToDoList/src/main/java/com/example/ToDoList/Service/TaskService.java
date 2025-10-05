@@ -35,7 +35,6 @@ public class TaskService {
 
     public Task addTask(Task task) {
         Task saved = taskRepo.save(task);
-
         TaskStats stats = getTaskStats();
         stats.incrementTotal();
         taskStatsRepo.save(stats);
@@ -69,5 +68,12 @@ public class TaskService {
         TaskStats stats = getTaskStats();
         stats.reset();
         return taskStatsRepo.save(stats);
+    }
+
+    public void updateTask(Task task) {
+        if (!taskRepo.existsById(task.getId())) {
+            throw new RuntimeException("Task not found with id: " + task.getId());
+        }
+        taskRepo.save(task);
     }
 }
